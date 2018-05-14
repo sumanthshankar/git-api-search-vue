@@ -66,13 +66,12 @@
     },
     methods: {
       searchData() {
-        this.$http.get(`repositories?q=${this.userData.searchKeyword}&stars=${this.userData.stars}&license=${this.userData.license}&fork=${this.userData.license}`)
-                  .then(response => {
-                    console.log(response.body.items);
-                  }, error => {
-                    console.log('error')
-                    console.log(error);
-                  })
+        this.$router.push({ path: 'search', query: { q: this.userData.searchKeyword,
+                                                     stars: this.userData.stars,
+                                                     license: this.userData.license,
+                                                     fork: this.userData.forked
+                                                   }
+                          });
       }
     }
 

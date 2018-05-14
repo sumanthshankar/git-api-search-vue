@@ -8,6 +8,7 @@ import UserInput from './components/UserInput.vue';
 import SearchResult from './components/SearchResult.vue';
 
 Vue.use(VueResource);
+//'https://api.github.com/search/'
 Vue.http.options.root = 'https://api.github.com/search/';
 
 Vue.use(VueRouter);
