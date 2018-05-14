@@ -6,7 +6,8 @@
           <label for="searchKeyword">Search Keyword</label>
           <input type="text"
                  id="searchKeyword"
-                 class="input" name="searchKeyword"
+                 class="input"
+                 name="searchKeyword"
                  v-model="userData.searchKeyword">
         </div>
         <div class="col span-1-of-1">
@@ -113,12 +114,12 @@
 
 
   .btn {
-  min-width: 80px;
-  min-height: 30px;
-  color: #ffffff;
-  background-color: #0e4275;
-  align-items: center;
-  justify-content: center;
+    min-width: 80px;
+    min-height: 30px;
+    color: #ffffff;
+    background-color: #0e4275;
+    align-items: center;
+    justify-content: center;
   }
 
   .btn:hover {

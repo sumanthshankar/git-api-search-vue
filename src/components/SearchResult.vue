@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div class="buttonHolder">
+      <button type="button"
+              class="btn"
+              @click.prevent="newSearch">New Search</button>
+    </div>
     <div v-if="items.length !== 0">
       <div class="horizontal-line-box">
         <hr class="horizontal-line">
@@ -52,8 +57,12 @@
       this.$http.get(`repositories?q=${this.q}&stars=${this.stars}&license=${this.license}&fork=${this.fork}`)
         .then((response) => {
           this.items = response.body.items;
-          console.log(this.items);
         });
+    },
+    methods: {
+      newSearch() {
+        this.$router.push({path: '/'});
+      }
     }
   }
 </script>
@@ -171,6 +180,19 @@
 
   .horizontal-line-divider {
     width: 0%;
+  }
+
+  .buttonHolder {
+    text-align: center;
+  }
+
+  .btn {
+    min-width: 80px;
+    min-height: 30px;
+    color: #ffffff;
+    background-color: #0e4275;
+    align-items: center;
+    justify-content: center;
   }
 
   @media only screen and (max-width: 700px) {
