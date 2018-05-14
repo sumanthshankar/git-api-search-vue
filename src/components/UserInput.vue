@@ -2,13 +2,15 @@
   <div>
     <form>
       <div class="row">
-        <div class="col span-1-of-1">
+        <div class="col span-1-of-1" :class="{invalid: $v.searchKeyword.$error}">
           <label for="searchKeyword">Search Keyword</label>
           <input type="text"
                  id="searchKeyword"
                  class="input"
                  name="searchKeyword"
-                 v-model="userData.searchKeyword">
+                 @input="$v.searchKeyword.$touch()"
+                 v-model="searchKeyword">
+          <span v-if="$v.searchKeyword.$error">Please provide search word</span>
         </div>
         <div class="col span-1-of-1">
           <label for="stars">Stars</label>
@@ -16,7 +18,9 @@
                  id="stars"
                  class="input"
                  name="stars"
-                 v-model="userData.stars">
+                 v-model="stars">
+          <span v-if="!$v.stars.numeric">You must provide a number</span>
+          <span v-if="$v.stars.$error">You must provide a star</span>
         </div>
       </div>
       <div class="row">
@@ -25,7 +29,7 @@
           <br>
           <select class="input"
                   id="license"
-                  v-model="userData.license">
+                  v-model="license">
             <option value="mit">MIT</option>
             <option value="isc">ISC</option>
             <option value="apache-2.0">Apache</option>
@@ -37,7 +41,7 @@
           <div class="checbox-holder">
             <input type="checkbox"
                    name="true"
-                   v-model="userData.forked">
+                   v-model="fork">
             <label>Include Forked</label>
           </div>
         </div>
@@ -46,7 +50,8 @@
         <div class="buttonHolder">
           <button type="button"
                   class="btn"
-                  @click.prevent="searchData">Search</button>
+                  @click.prevent="searchData"
+                  :disabled="$v.$invalid">Search</button>
         </div>
       </div>
     </form>
@@ -54,23 +59,31 @@
 </template>
 
 <script>
+  import { required, numeric } from 'vuelidate/lib/validators';
   export default {
     data() {
       return {
-        userData: {
-          searchKeyword: '',
-          stars: '',
-          license: '',
-          forked: false
-        }
+        searchKeyword: '',
+        stars: '',
+        license: '',
+        fork: false
+      }
+    },
+    validations: {
+      searchKeyword: {
+        required
+      },
+      stars: {
+        required,
+        numeric
       }
     },
     methods: {
       searchData() {
-        this.$router.push({ path: 'search', query: { q: this.userData.searchKeyword,
-                                                     stars: this.userData.stars,
-                                                     license: this.userData.license,
-                                                     fork: this.userData.forked
+        this.$router.push({ path: 'search', query: { q: this.searchKeyword,
+                                                     stars: this.stars,
+                                                     license: this.license,
+                                                     fork: this.fork
                                                    }
                           });
       }
