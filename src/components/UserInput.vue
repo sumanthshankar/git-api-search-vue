@@ -60,15 +60,13 @@
           searchKeyword: '',
           stars: '',
           license: '',
-          forked: false,
-          baseURL: ''
+          forked: false
         }
       }
     },
     methods: {
       searchData() {
-        this.baseURL = 'https://api.github.com/search/repositories?';
-        this.$http.get(`${this.baseURL}q=${this.userData.searchKeyword}&stars=${this.userData.stars}&license=${this.userData.license}&fork=${this.userData.license}`)
+        this.$http.get(`repositories?q=${this.userData.searchKeyword}&stars=${this.userData.stars}&license=${this.userData.license}&fork=${this.userData.license}`)
                   .then(response => {
                     console.log(response.body.items);
                   }, error => {

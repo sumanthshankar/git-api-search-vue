@@ -1,5 +1,5 @@
 <template>
-  <user-input></user-input>
+  <router-view></router-view>
 </template>
 
 <script>
