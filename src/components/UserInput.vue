@@ -1,30 +1,28 @@
 <template>
   <div>
     <form>
-      <div class="form-group row">
-        <label for="searchKeyword" class="col-sm-2 col-form-label">Search Keyword</label>
-        <div class="col-sm-10">
+      <div class="row">
+        <div class="col span-1-of-1">
+          <label for="searchKeyword">Search Keyword</label>
           <input type="text"
-                 class="form-control"
                  id="searchKeyword"
-                 placeholder="Search Keyword"
+                 class="input" name="searchKeyword"
                  v-model="userData.searchKeyword">
         </div>
-      </div>
-      <div class="form-group row">
-        <label for="stars" class="col-sm-2 col-form-label">Stars</label>
-        <div class="col-sm-10">
+        <div class="col span-1-of-1">
+          <label for="stars">Stars</label>
           <input type="text"
-                 class="form-control"
                  id="stars"
-                 placeholder="Stars"
+                 class="input"
+                 name="stars"
                  v-model="userData.stars">
         </div>
       </div>
-      <div class="form-group row">
-        <label for="license" class="col-sm-2 col-form-label">License</label>
-        <div class="col-sm-10">
-          <select name="input"
+      <div class="row">
+        <div class="col span-1-of-1 space">
+          <label for="license">License</label>
+          <br>
+          <select class="input"
                   id="license"
                   v-model="userData.license">
             <option value="mit">MIT</option>
@@ -33,22 +31,20 @@
             <option value="gpl">GPL</option>
           </select>
         </div>
-      </div>
-      <div class="form-group row">
-        <div class="col-sm-2">Forked</div>
-        <div class="col-sm-10">
-          <div class="form-check">
-            <input class="form-check-input"
-                   type="checkbox"
-                   value="true"
+        <div class="col span-1-of-1">
+          <br>
+          <div class="checbox-holder">
+            <input type="checkbox"
+                   name="true"
                    v-model="userData.forked">
+            <label>Include Forked</label>
           </div>
         </div>
       </div>
-      <div class="form-group row">
-        <div class="col-sm-10">
-          <button type="submit"
-                  class="btn btn-primary"
+      <div class="row">
+        <div class="buttonHolder">
+          <button type="button"
+                  class="btn"
                   @click.prevent="searchData">Search</button>
         </div>
       </div>
@@ -64,15 +60,89 @@
           searchKeyword: '',
           stars: '',
           license: '',
-          forked: false
+          forked: false,
+          baseURL: ''
         }
       }
     },
     methods: {
       searchData() {
-        console.log(this.userData.forked);
+        this.baseURL = 'https://api.github.com/search/repositories?';
+        this.$http.get(`${this.baseURL}q=${this.userData.searchKeyword}&stars=${this.userData.stars}&license=${this.userData.license}&fork=${this.userData.license}`)
+                  .then(response => {
+                    console.log(response.body.items);
+                  }, error => {
+                    console.log('error')
+                    console.log(error);
+                  })
       }
     }
 
   }
 </script>
+
+<style>
+  .row {
+    margin: 1% 12.0% 1% 12.0%;
+  }
+
+  .row:before,
+  .row:after {
+    content:"";
+    display:table;
+  }
+  .row:after {
+    clear:both;
+  }
+
+  .col {
+    display: block;
+    float: left;
+  }
+
+  col:first-child {
+    margin-left: 0;
+  }
+
+  .span-1-of-1 {
+    width: 47%;
+    margin-right: 3%;
+  }
+
+  .input {
+    width: 100%;
+    height: 20px;
+  }
+
+
+  .btn {
+  min-width: 80px;
+  min-height: 30px;
+  color: #ffffff;
+  background-color: #0e4275;
+  align-items: center;
+  justify-content: center;
+  }
+
+  .btn:hover {
+    background-color: #497cc2;
+  }
+
+
+  .buttonHolder {
+    text-align: center;
+  }
+
+  @media only screen and (max-width: 480px) {
+    .row {
+      margin: 0;
+    }
+    .span-1-of-1 {
+      width: 100%;
+    }
+    .checbox-holder {
+      text-align: center;
+      padding-bottom: 15px;
+    }
+  }
+</style>
