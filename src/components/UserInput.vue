@@ -20,7 +20,7 @@
                  name="stars"
                  v-model="stars">
           <span v-if="!$v.stars.numeric">You must provide a number</span>
-          <span v-if="$v.stars.$error">You must provide a star</span>
+          <span v-if="$v.stars.$error">You must provide number of stars</span>
         </div>
       </div>
       <div class="row">

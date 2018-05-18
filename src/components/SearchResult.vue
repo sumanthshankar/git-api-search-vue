@@ -5,6 +5,7 @@
               class="btn"
               @click.prevent="newSearch">New Search</button>
     </div>
+    <p class="test"></p>
     <div v-if="items.length !== 0">
       <div class="horizontal-line-box">
         <hr class="horizontal-line">
@@ -46,15 +47,14 @@
   export default {
     data() {
       return {
-        items: [],
-        q: this.$route.query.q,
-        stars: this.$route.query.stars,
-        license: this.$route.query.license,
-        fork: this.$route.query.fork
+        items: []
       }
     },
     created() {
-      this.$http.get(`repositories?q=${this.q}&stars=${this.stars}&license=${this.license}&fork=${this.fork}`)
+      this.$http.get(`repositories?q=${this.$route.query.q}
+                                  &stars=${this.$route.query.stars}
+                                  &license=${this.$route.query.license}
+                                  &fork=${this.$route.query.fork}`)
         .then((response) => {
           this.items = response.body.items;
         });
@@ -150,10 +150,6 @@
 
   .text {
     text-align: center;
-  }
-
-  .border-right {
-    border-left: 1px solid #fff;
   }
 
   .text-position {
